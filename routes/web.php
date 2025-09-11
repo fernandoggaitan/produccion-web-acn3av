@@ -2,20 +2,29 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-use App\Models\User;
+use App\Http\Controllers\CourseController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+
+//php artisan make:model Course -mcr
+
 Route::get('test', function () {
-    $usuario = User::create([
-        'name' => 'Juanito',
-        'email' => 'juanito@davinci.edu.ar',
-        'password' => '1234'
-    ]);
-    return "Se creó un usuario con el ID: {$usuario->id}";
+    
+    return 'Test';
+
 });
+
+Route::get('saludo/{nombre}', function($nombre){
+    return "Hola, {$nombre}";
+});
+
+Route::get('courses', [
+    CourseController::class,
+    'index'
+]);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

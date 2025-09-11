@@ -12,7 +12,12 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::all();
+        $title = 'Acá van todos los cursos';
+        return view('courses.index', [
+            'title' => $title,
+            'courses' => $courses
+        ]);
     }
 
     /**
