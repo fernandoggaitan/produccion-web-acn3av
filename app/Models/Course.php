@@ -12,6 +12,11 @@ class Course extends Model
 
     protected $fillable = ['title', 'description', 'price', 'is_visible'];
 
+    public function price_format()
+    {
+        return '$' . number_format($this->price, 2, ',', '.');
+    }
+
     //protected $table = 'cursitos';
 
 }

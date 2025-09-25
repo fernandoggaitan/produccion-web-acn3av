@@ -12,7 +12,11 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::all();
+        //$courses = Course::paginate(10);
+        $courses = Course::select( ['id', 'title', 'price'] )
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
         $title = 'Acá van todos los cursos';
         return view('courses.index', [
             'title' => $title,
@@ -25,7 +29,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -33,7 +37,7 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return 'Procesa los datos para agregar un recurso nuevo';
     }
 
     /**
