@@ -14,6 +14,7 @@ class CourseController extends Controller
     {
         //$courses = Course::paginate(10);
         $courses = Course::select( ['id', 'title', 'price'] )
+            ->where('is_visible', true)
             ->orderBy('id', 'DESC')
             ->paginate(10);
 
@@ -37,7 +38,24 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        return 'Procesa los datos para agregar un recurso nuevo';
+
+        $request->validate([
+            'title' => 'required|max:100',
+            'description' => 'required',
+            'price' => 'numeric|max:1000000'
+        ], [
+            'title.required' => 'Che, te faltó el título del curso'
+        ]);
+
+        Course::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price
+        ]);
+
+        return redirect()
+            ->route('courses.index')
+            ->with('status', 'El curso se ha agregado correctamente.');;
     }
 
     /**
@@ -45,7 +63,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        return $course;
     }
 
     /**
@@ -53,7 +71,9 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        return view('courses.edit', [
+            'course' => $course
+        ]);
     }
 
     /**
@@ -61,7 +81,14 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $course->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price
+        ]);
+        return redirect()
+            ->route('courses.index')
+            ->with('status', 'El curso se ha modificado correctamente.');
     }
 
     /**
@@ -69,6 +96,14 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        //$course->delete();
+
+        $course->update([
+            'is_visible' => false
+        ]);
+
+        return redirect()
+            ->route('courses.index')
+            ->with('status', 'El curso se ha eliminado correctamente.');
     }
 }

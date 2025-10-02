@@ -1,5 +1,11 @@
 <x-layouts.app :title="__('Lista de cursos')">
 
+    @if (session('status'))
+        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400">
+            {{ session('status') }}
+        </div>
+    @endif
+
     <div class="mb-3">
         <x-produccion.enlace href="{{ route('courses.create') }}"> Crear curso nuevo </x-produccion.enlace>
     </div>
@@ -14,7 +20,7 @@
                     <th scope="col" class="px-6 py-3">
                         Precio
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3" colspan="3">
                         Acciones
                     </th>
                 </tr>
@@ -29,7 +35,17 @@
                             {{ $c->price_format() }}
                         </td>
                         <td class="px-6 py-4">
-                            
+                            <x-produccion.enlace href="{{ route('courses.show', $c) }}"> Ver </x-produccion.enlace>
+                        </td>
+                         <td class="px-6 py-4">
+                            <x-produccion.enlace href="{{ route('courses.edit', $c) }}"> Editar </x-produccion.enlace>
+                        </td>
+                         <td class="px-6 py-4">
+                            <form action="{{ route('courses.destroy', $c) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <x-produccion.btn-danger type="submit"> Eliminar </x-produccion.btn-danger>
+                            </form>                            
                         </td>
                     </tr>
                 @endforeach
