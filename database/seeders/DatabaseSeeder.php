@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Course;
+use App\Models\Comment;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -24,12 +25,19 @@ class DatabaseSeeder extends Seeder
         ]);
         */
 
+        //Creamos varios usuarios.
         User::factory()->create([
             'name' => 'Fernando',
             'email' => 'fernando.gaitan@davinci.edu.ar',
             'password' => Hash::make('1234')
         ]);
+        //Creamos varios usuarios aleatorios.
+        $users = User::factory(49)->create();
 
+        //Crear comentarios de forma aleatoria.
+        Comment::factory(500)->create();
+
+        //Creación de cursos.
         Course::factory(1000)->create();
 
     }

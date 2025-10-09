@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +22,9 @@ Route::get('saludo/{nombre}', function($nombre){
     return "Hola, {$nombre}";
 });
 
-//Cursos
+//Cursos.
+Route::resource('courses', CourseController::class);
+/*
 Route::get('courses', [
     CourseController::class,
     'index'
@@ -56,6 +59,14 @@ Route::delete('courses/{course}', [
     CourseController::class,
     'destroy'
 ])->name('courses.destroy');
+*/
+//Fin del controlador de recursos.
+
+//Comentarios
+Route::get('comments', [
+    CommentController::class,
+    'index'
+])->name('comments.index');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

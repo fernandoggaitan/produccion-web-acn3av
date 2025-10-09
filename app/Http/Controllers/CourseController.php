@@ -4,24 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index( Request $request )
     {
-        //$courses = Course::paginate(10);
+
+        $search = $request->search;
+
         $courses = Course::select( ['id', 'title', 'price'] )
             ->where('is_visible', true)
+            ->when( $search, fn(Builder $builder) => 
+                $builder->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+            )
             ->orderBy('id', 'DESC')
             ->paginate(10);
 
         $title = 'Acá van todos los cursos';
         return view('courses.index', [
             'title' => $title,
-            'courses' => $courses
+            'courses' => $courses,
+            'search' => $search
         ]);
     }
 
@@ -81,11 +89,21 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+
+        $request->validate([
+            'title' => 'required|max:100',
+            'description' => 'required',
+            'price' => 'numeric|max:1000000'
+        ], [
+            'title.required' => 'Che, te faltó el título del curso'
+        ]);
+
         $course->update([
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price
         ]);
+
         return redirect()
             ->route('courses.index')
             ->with('status', 'El curso se ha modificado correctamente.');

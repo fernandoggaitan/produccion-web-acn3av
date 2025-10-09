@@ -10,6 +10,21 @@
         <x-produccion.enlace href="{{ route('courses.create') }}"> Crear curso nuevo </x-produccion.enlace>
     </div>
 
+    <form action="{{ route('courses.index') }}" method="GET" class="mb-5">
+        <flux:input
+            name="search"
+            :label="__('Título')"
+            type="text"
+            placeholder="Ingresear el título a buscar"
+            class="mb-3"
+            value="{{ $search }}"
+        />
+        <flux:button variant="primary" type="submit"> Buscar </flux:button>
+        @if ($search)
+            <x-produccion.enlace href="{{ route('courses.index') }}"> Limpiar búsqueda </x-produccion.enlace>
+        @endif
+    </form>
+
     <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -53,6 +68,6 @@
         </table>
     </div>
 
-    {{ $courses->links() }}
+    {{ $courses->appends( ['search' => $search] )->links() }}
 
 </x-layouts.app>

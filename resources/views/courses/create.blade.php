@@ -31,7 +31,8 @@
             value="{{ old('price') }}"
         />
         <flux:textarea name="description" :label="__('Descripción')" class="mb-3" placeholder="Ingrese la descripción del curso">{{ old('price') }}</flux:textarea>
-        <flux:button variant="primary" type="submit" class="w-full"> Agregar curso nuevo </flux:button>
+        <flux:button variant="primary" type="submit"> Agregar curso nuevo </flux:button>
+        <x-produccion.enlace href="{{ route('courses.index') }}"> Volver </x-produccion.enlace>
     </form>
 
 </x-layouts.app>

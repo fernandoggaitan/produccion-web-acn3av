@@ -30,10 +30,11 @@
             type="number"
             placeholder="Ingrese el precio del curso"
             class="mb-3"
-            value="{{ old('price', $course->title) }}"
+            value="{{ old('price', $course->price) }}"
         />
         <flux:textarea name="description" :label="__('Descripción')" class="mb-3" placeholder="Ingrese la descripción del curso">{{ old('description', $course->description) }}</flux:textarea>
-        <flux:button variant="primary" type="submit" class="w-full"> Modificar curso </flux:button>
+        <flux:button variant="primary" type="submit"> Modificar curso </flux:button>
+        <x-produccion.enlace href="{{ route('courses.index') }}"> Volver </x-produccion.enlace>
     </form>
 
 </x-layouts.app>
