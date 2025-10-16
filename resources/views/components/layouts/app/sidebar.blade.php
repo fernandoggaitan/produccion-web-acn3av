@@ -13,8 +13,10 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    <flux:navlist.item icon="book-open" :href="route('courses.index')" :current="request()->routeIs('courses.index')" wire:navigate>{{ __('Cursos') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>                    
+                    @if ( Auth::user()->roles->contains('id', 1) )
+                        <flux:navlist.item icon="book-open" :href="route('courses.index')" :current="request()->routeIs('courses.index')" wire:navigate>{{ __('Cursos') }}</flux:navlist.item>
+                    @endif                    
                 </flux:navlist.group>
             </flux:navlist>
 

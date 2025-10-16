@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CommentController;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,7 +15,11 @@ Route::get('/', function () {
 
 Route::get('test', function () {
     
-    return 'Test';
+    $user = User::find(1);
+
+    $user->roles()->sync( [1, 2] );
+
+    return $user->roles;
 
 });
 
@@ -23,7 +28,9 @@ Route::get('saludo/{nombre}', function($nombre){
 });
 
 //Cursos.
-Route::resource('courses', CourseController::class);
+Route::resource('courses', CourseController::class)
+    ->middleware(['auth', 'verified', 'is_admin']);
+
 /*
 Route::get('courses', [
     CourseController::class,
@@ -66,7 +73,7 @@ Route::delete('courses/{course}', [
 Route::get('comments', [
     CommentController::class,
     'index'
-])->name('comments.index');
+])->name('comments.index')->middleware(['auth', 'verified']);
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

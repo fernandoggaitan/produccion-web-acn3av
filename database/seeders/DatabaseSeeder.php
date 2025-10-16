@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Comment;
+use App\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,17 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        /*
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-        */
-
+    
         //Creamos varios usuarios.
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'Fernando',
             'email' => 'fernando.gaitan@davinci.edu.ar',
             'password' => Hash::make('1234')
@@ -39,6 +32,24 @@ class DatabaseSeeder extends Seeder
 
         //Creación de cursos.
         Course::factory(1000)->create();
+
+        //Creamos los roles.
+        $roles = ['Administrador', 'Profesor', 'Alumno'];
+
+        foreach($roles as $r){
+            Role::create([
+                'name' => $r
+            ]);
+        }
+
+        //Agregamos roles.
+        $admin->roles()->sync( [1, 2] );
+
+        //Lo hizo deepseek.
+        $users->each(function ($user) {
+            $roles = rand(0, 100) < 30 ? [2, 3] : [rand(2, 3)];
+            $user->roles()->sync($roles);
+        });
 
     }
 }

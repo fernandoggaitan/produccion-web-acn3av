@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CourseController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
