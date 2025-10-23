@@ -75,6 +75,11 @@ Route::get('comments', [
     'index'
 ])->name('comments.index')->middleware(['auth', 'verified']);
 
+
+Route::view('tasks', 'tasks.tasks')
+    ->middleware(['auth', 'verified', 'is_admin'])
+    ->name('tasks');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
