@@ -35,6 +35,9 @@
                     <th scope="col" class="px-6 py-3">
                         Precio
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        Imagen
+                    </th>
                     <th scope="col" class="px-6 py-3" colspan="3">
                         Acciones
                     </th>
@@ -48,6 +51,13 @@
                         </th>
                         <td class="px-6 py-4">
                             {{ $c->price_format() }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($c->image)
+                                <img src="{{ asset('storage/' . $c->image) }}" alt="No hay una imagen disponible" />
+                            @else
+                                <img src="{{ asset('no-image.png') }}" alt="No hay una imagen disponible" />
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             <x-produccion.enlace href="{{ route('courses.show', $c) }}"> Ver </x-produccion.enlace>

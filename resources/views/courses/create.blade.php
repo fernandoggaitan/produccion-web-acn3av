@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <form action="{{ route('courses.store') }}" method="POST">
+    <form action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -31,6 +31,9 @@
             value="{{ old('price') }}"
         />
         <flux:textarea name="description" :label="__('Descripción')" class="mb-3" placeholder="Ingrese la descripción del curso">{{ old('price') }}</flux:textarea>
+
+        <flux:input type="file" name="image" class="mb-3" />
+
         <flux:button variant="primary" type="submit"> Agregar curso nuevo </flux:button>
         <x-produccion.enlace href="{{ route('courses.index') }}"> Volver </x-produccion.enlace>
     </form>

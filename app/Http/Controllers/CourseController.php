@@ -17,7 +17,7 @@ class CourseController extends Controller
 
         $search = $request->search;
 
-        $courses = Course::select( ['id', 'title', 'price'] )
+        $courses = Course::select( ['id', 'title', 'price', 'image'] )
             ->where('is_visible', true)
             ->when( $search, fn(Builder $builder) => 
                 $builder->where('title', 'like', "%{$search}%")
@@ -51,15 +51,28 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|max:100',
             'description' => 'required',
-            'price' => 'numeric|max:1000000'
+            'price' => 'numeric|max:1000000',
+            'image' => 'nullable|mimes:jpg,png'
         ], [
             'title.required' => 'Che, te faltó el título del curso'
         ]);
 
+        //Valor por defecto de la imagen.
+        $image = null;
+
+        //Verifica si se está intentando subir un archivo.
+        if( $request->hasFile('image') ){
+            //Define el nombre.
+            $image_name = time() . $request->file('image')->getClientOriginalName();
+            //Sube el archivo con el método storeAs.
+            $image = $request->file('image')->storeAs( 'courses', $image_name, 'public' );
+        }
+
         Course::create([
             'title' => $request->title,
             'description' => $request->description,
-            'price' => $request->price
+            'price' => $request->price,
+            'image' => $image
         ]);
 
         return redirect()

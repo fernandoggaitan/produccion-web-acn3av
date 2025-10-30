@@ -6,12 +6,12 @@ use Livewire\Component;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\WithPagination;
 
 class TasksList extends Component
 {
 
-    public $count_mount = 0;
-    public $count_render = 0;
+    use WithPagination;
 
     public $title = '';
     public $search = '';
@@ -41,36 +41,16 @@ class TasksList extends Component
         ]);
     }
 
-    public function mount()
-    {
-        $this->count_mount++;
-        $this->profes = $this->getProfes();
-    }
-
     public function render()
     {
-        //Contar la cantidad de veces que se renderiza el componente.
-        $this->count_render++;
-        //
         $tasks = Task::select( ['id', 'title', 'completed'] )
                 ->when( $this->search, fn(Builder $builder) => 
                     $builder->where('title', 'like', "%{$this->search}%")
                 )
                 ->paginate(10);
         return view('livewire.tasks-list', [
-            'tasks' => $tasks,
-            'count_render' => $this->count_render            
+            'tasks' => $tasks
         ]);
-    }
-
-    private function getProfes()
-    {
-        return User::select( ['id', 'name'] )
-                ->whereHas('roles', fn(Builder $builder) => 
-                    $builder->where('id', 2)
-                )
-                ->orderBy('name')
-                ->get();
     }
 
 }
