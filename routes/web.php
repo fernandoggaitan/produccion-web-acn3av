@@ -4,14 +4,19 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LanguageController;
 use App\Models\User;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-
 //php artisan make:model Course -mcr
+
+Route::get('lang/{lang}', [
+    LanguageController::class,
+    'switchLang'
+])->name('lang');
 
 Route::get('test', function () {
     
@@ -29,7 +34,7 @@ Route::get('saludo/{nombre}', function($nombre){
 
 //Cursos.
 Route::resource('courses', CourseController::class)
-    ->middleware(['auth', 'verified', 'is_admin']);
+    ->middleware(['auth', 'verified', 'is_admin', 'set_locale']);
 
 /*
 Route::get('courses', [

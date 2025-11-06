@@ -16,26 +16,24 @@
 
         <flux:input
             name="title"
-            :label="__('Título')"
+            :label="__('courses.field-title')"
             type="text"
-            placeholder="Ingrese el título del curso"
             class="mb-3"
             value="{{ old('title') }}"
         />
         <flux:input
             name="price"
-            :label="__('Precio')"
+            :label="__('courses.field-price')"
             type="number"
-            placeholder="Ingrese el precio del curso"
             class="mb-3"
             value="{{ old('price') }}"
         />
-        <flux:textarea name="description" :label="__('Descripción')" class="mb-3" placeholder="Ingrese la descripción del curso">{{ old('price') }}</flux:textarea>
+        <flux:textarea name="description" :label="__('courses.field-description')" class="mb-3">{{ old('price') }}</flux:textarea>
 
         <flux:input type="file" name="image" class="mb-3" />
 
-        <flux:button variant="primary" type="submit"> Agregar curso nuevo </flux:button>
-        <x-produccion.enlace href="{{ route('courses.index') }}"> Volver </x-produccion.enlace>
+        <flux:button variant="primary" type="submit"> {{ __('courses.btn-add') }} </flux:button>
+        <x-produccion.enlace href="{{ route('courses.index') }}"> {{ __('courses.btn-back') }} </x-produccion.enlace>
     </form>
 
 </x-layouts.app>

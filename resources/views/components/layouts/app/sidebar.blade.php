@@ -18,6 +18,8 @@
                         <flux:navlist.item icon="book-open" :href="route('courses.index')" :current="request()->routeIs('courses.index')" wire:navigate>{{ __('Cursos') }}</flux:navlist.item>
                         <flux:navlist.item icon="list-bullet" :href="route('tasks')" :current="request()->routeIs('tasks')" wire:navigate>{{ __('Tareas') }}</flux:navlist.item>
                     @endif
+                    <flux:navlist.item icon="language" :href="route('lang', 'en')" wire:navigate> English </flux:navlist.item>
+                    <flux:navlist.item icon="language" :href="route('lang', 'es')" wire:navigate> Español </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

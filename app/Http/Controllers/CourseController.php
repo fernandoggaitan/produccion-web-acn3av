@@ -53,8 +53,6 @@ class CourseController extends Controller
             'description' => 'required',
             'price' => 'numeric|max:1000000',
             'image' => 'nullable|mimes:jpg,png'
-        ], [
-            'title.required' => 'Che, te faltó el título del curso'
         ]);
 
         //Valor por defecto de la imagen.
