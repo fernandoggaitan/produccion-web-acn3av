@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Comment;
 use App\Models\Role;
+use App\Models\Status;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -50,6 +51,15 @@ class DatabaseSeeder extends Seeder
             $roles = rand(0, 100) < 30 ? [2, 3] : [rand(2, 3)];
             $user->roles()->sync($roles);
         });
+
+        //Creamos los estados.
+        $estados = ['Pendiente', 'En proceso', 'Finalizada'];
+
+        foreach($estados as $e){
+            Status::create([
+                'name' => $e
+            ]);
+        }
 
     }
 }
